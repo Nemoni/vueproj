@@ -1,26 +1,29 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div>
+    <h1>{{ message }}</h1>
+  </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import { defineComponent, ref, onMounted } from 'vue'
+import axios from 'axios'
 
-export default {
-  name: 'App',
-  components: {
-    HelloWorld
+export default defineComponent({
+  setup() {
+    const message = ref('original')
+
+    onMounted(() => {
+      console.log("call onMounted")
+      axios.get('http://192.168.1.121:3000/api/message')
+        .then(response => {
+          message.value = response.data
+        })
+        .catch(error => {
+          console.error(error)
+        })
+    })
+
+    return { message }
   }
-}
+})
 </script>
-
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
