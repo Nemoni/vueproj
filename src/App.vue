@@ -1,29 +1,29 @@
 <template>
   <div>
-    <h1>{{ message }}</h1>
+    <list-component :list="list"></list-component>
+    <button-component @click="addItem">Add Item</button-component>
   </div>
 </template>
 
 <script>
-import { defineComponent, ref, onMounted } from 'vue'
-import axios from 'axios'
+import ListComponent from "./components/ListComponent.vue";
+import ButtonComponent from "./components/ButtonComponent.vue";
 
-export default defineComponent({
-  setup() {
-    const message = ref('original')
-
-    onMounted(() => {
-      console.log("call onMounted")
-      axios.get('http://192.168.1.121:3000/api/message')
-        .then(response => {
-          message.value = response.data
-        })
-        .catch(error => {
-          console.error(error)
-        })
-    })
-
-    return { message }
-  }
-})
+export default {
+  name: "App",
+  components: {
+    ListComponent,
+    ButtonComponent,
+  },
+  data() {
+    return {
+      list: ["Item 1", "Item 2", "Item 3"],
+    };
+  },
+  methods: {
+    addItem() {
+      this.list.push(`Item ${this.list.length + 1}`);
+    },
+  },
+};
 </script>
