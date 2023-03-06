@@ -1,5 +1,5 @@
 <template>
-  <Child :message="msg" />
+  <Child @child-click="updateMessage" :message="msg"/>
 </template>
 
 <script>
@@ -11,7 +11,13 @@ export default {
   },
   data() {
     return {
-      msg: 'hi from parent!'
+      msg: 'Hello from parent!'
+    }
+  },
+  methods: {
+    updateMessage(data) {
+      console.log("click, old:" + data)
+      this.msg = 'Updated message!'
     }
   }
 }
