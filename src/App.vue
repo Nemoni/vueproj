@@ -1,22 +1,17 @@
 <template>
-  <div>
-    <my-component ref="myComponent"></my-component>
-    <button @click="logRefs">Log refs</button>
-  </div>
+  <Child :message="msg" />
 </template>
 
 <script>
-import MyComponent from './components/SubComponent.vue'
+import Child from './components/ChildComponent.vue'
 
 export default {
   components: {
-    MyComponent
+    Child
   },
-  methods: {
-    logRefs() {
-      console.log(this.$refs.myComponent.count) // 输出：0
-      this.$refs.myComponent.increment()
-      console.log(this.$refs.myComponent.count) // 输出：1
+  data() {
+    return {
+      msg: 'hi from parent!'
     }
   }
 }
