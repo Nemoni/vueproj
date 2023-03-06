@@ -1,29 +1,23 @@
 <template>
   <div>
-    <list-component :list="list"></list-component>
-    <button-component @click="addItem">Add Item</button-component>
+    <my-component ref="myComponent"></my-component>
+    <button @click="logRefs">Log refs</button>
   </div>
 </template>
 
 <script>
-import ListComponent from "./components/ListComponent.vue";
-import ButtonComponent from "./components/ButtonComponent.vue";
+import MyComponent from './components/SubComponent.vue'
 
 export default {
-  name: "App",
   components: {
-    ListComponent,
-    ButtonComponent,
-  },
-  data() {
-    return {
-      list: ["Item 1", "Item 2", "Item 3"],
-    };
+    MyComponent
   },
   methods: {
-    addItem() {
-      this.list.push(`Item ${this.list.length + 1}`);
-    },
-  },
-};
+    logRefs() {
+      console.log(this.$refs.myComponent.count) // 输出：0
+      this.$refs.myComponent.increment()
+      console.log(this.$refs.myComponent.count) // 输出：1
+    }
+  }
+}
 </script>
