@@ -10,7 +10,7 @@ const routes = [
     component: Home
   },
   {
-    path: '/about',
+    path: '/about/:id',
     name: 'About',
     component: () => import(/* webpackChunkName: "about" */ '../components/AboutPage.vue')  // 动态导入模块的方式，只有在需要时才会加载指定的模块。
   }

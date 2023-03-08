@@ -2,8 +2,9 @@
 
 <template>
   <div>
-    <h4>About Component</h4>
+    <h2>About Component</h2>
     <p>{{ message }}</p>
+    <p>ID: {{ $route.params.id }}</p>
   </div>
 </template>
 
