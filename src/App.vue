@@ -1,24 +1,22 @@
+<!-- App.vue -->
+
 <template>
-  <Child @child-click="updateMessage" :message="msg"/>
+  <div>
+    <h1>App Component</h1>
+    <router-link class='router-link' to="/">Home</router-link>
+    <router-link class='router-link' to="/about">About</router-link>
+    <router-view></router-view>
+  </div>
 </template>
 
 <script>
-import Child from './components/ChildComponent.vue'
-
 export default {
-  components: {
-    Child
-  },
-  data() {
-    return {
-      msg: 'Hello from parent!'
-    }
-  },
-  methods: {
-    updateMessage(data) {
-      console.log("click, old:" + data)
-      this.msg = 'Updated message!'
-    }
-  }
+  name: 'App'
 }
 </script>
+
+<style>
+  .router-link {
+    margin-right: 10px;
+  }
+</style>
