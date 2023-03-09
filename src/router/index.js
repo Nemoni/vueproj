@@ -4,6 +4,9 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 import Home from '../components/HomePage.vue'
 import About from '../components/AboutPage.vue'
 import AboutDetails from '../components/AboutDetails.vue'
+import Admin from '../components/AdminPage.vue'
+import Unauthorized from '../components/Unauthorized.vue'
+import Login from '../components/LoginPage.vue'
 
 const routes = [
   {
@@ -24,19 +27,57 @@ const routes = [
     ]
   },
   {
+    path: '/admin',
+    name: 'Admin',
+    component: Admin,
+    meta: { requiresAuth: true, requiresAdmin: true }
+  },
+  {
+    path: '/unauthorized',
+    name: 'Unauthorized',
+    component: Unauthorized
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    component: Login
+  },
+  {
     path: '/:catchAll(.*)',
     redirect: '/'
   }
 ]
-/*
-在 Vue Router 4 中，我们可以使用动态路由来实现根据不同参数值动态匹配不同的路由。
-例如，在上面的示例代码中，我们为 /about/:id 这个路由规则定义了一个动态参数 id，它可以匹配任何以 /about/ 开头的路径，
-并将其后面的参数值传递给路由组件。在 AboutPage 组件中，我们使用 v-for 遍历了一个包含多个用户信息的数组，
-并使用 router-link 来动态生成路由链接。
-*/
+
 const router = createRouter({
   history: createWebHashHistory(),
   routes
+})
+
+router.beforeEach((to, from, next) => {
+  const isLoggedIn = localStorage.getItem('token') !== null
+  const isAdmin = localStorage.getItem('role') === 'admin'
+
+  /*
+  to.matched 是一个数组，它包含了当前路由匹配的所有路由记录。
+  每个路由记录都是一个包含路由配置信息的对象，其中包括了 path、name、component 等属性，还包括了我们在路由配置中定义的元信息 meta。
+  在这个代码片段中，我们使用了 to.matched.some 方法对当前路由匹配的所有路由记录进行遍历，
+  并查找是否存在一个元信息 requiresAuth 为 true 的路由记录。如果存在，则说明当前路由需要用户登录才能访问，此时我们返回 true，否则返回 false。
+  */
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    if (!isLoggedIn) {
+      next('/login')
+    } else if (to.matched.some(record => record.meta.requiresAdmin)) {
+      if (!isAdmin) {
+        next('/unauthorized')
+      } else {
+        next()
+      }
+    } else {
+      next()
+    }
+  } else {
+    next()
+  }
 })
 
 export default router
