@@ -4,17 +4,17 @@
   <div>
     <h2>About Component</h2>
     <p>{{ message }}</p>
-    <p>ID: {{ $route.params.id }}</p>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'AboutPage',
+  name: "AboutPage",
   data() {
     return {
-      message: 'This is the about page!'
-    }
-  }
-}
+      message: "This is the about page!",
+    };
+  },
+};
 </script>
