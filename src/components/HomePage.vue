@@ -18,7 +18,7 @@ export default {
   },
   methods: {
     goToAbout() {
-      this.$router.push({ name: "AboutDetails", params: { id: 1 } });
+      this.$router.push({ name: "About" });
       // 这里是导航到AboutDetails，如果填About会在浏览器报错[Vue Router warn]: Discarded invalid param(s) "id" when navigating
     },
   },
